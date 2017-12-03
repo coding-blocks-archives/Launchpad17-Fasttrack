@@ -9,5 +9,7 @@ Deepak Aggarwal
 
 ## Assisting Mentor
 Anirudh Gupta
+
 Darsh Pratap
+
 Himanshu Singhal

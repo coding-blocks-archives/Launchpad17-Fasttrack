@@ -7,7 +7,7 @@ All codes for Launchpad 17 Fasttrack batch starting on 3-Dec-17 at [Coding Block
 ## Mentor
 Deepak Aggarwal
 
-## Assisting Mentor
+## Assisting Mentors
 Anirudh Gupta
 
 Darsh Pratap

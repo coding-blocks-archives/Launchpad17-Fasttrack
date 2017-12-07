@@ -9,6 +9,9 @@
 |Format code 					 |Ctrl + Alt + F  |F for Format  |
 |Comment Your code 				 | Ctrl + /		  |`//` marks the beginning of comment|
 |Multi comment 					 |Ctrl + Shift + /| With Shift *X*, we uplift the case.|
+|Move to the closing/opening braces of a block|Ctrl + M||
+|List all functions|Ctrl+R||
+
 
 #### Note:
 If you find any other useful shortcut, you may submit a Pull Request or create an issue.

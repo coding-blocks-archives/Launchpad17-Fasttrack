@@ -89,7 +89,7 @@ Node* deleteNode(Node* head, int pos) {
     if (pos == 0 ||cur == NULL) return head;
 
     // if beginning
-    if (cur == head) {
+    if (pos == 1) {
         Node* tmp = head->next;
         delete cur;
         return tmp;
@@ -101,20 +101,93 @@ Node* deleteNode(Node* head, int pos) {
     return head;
 }
 
+int findElement(Node* head, int elementToSearch){
+    if (head == NULL) return -1;
+
+
+    if (head->data == elementToSearch) return 0;
+
+    int pos = findElement(head->next, elementToSearch);
+    if (pos != -1) return pos + 1;
+    return -1;
+
+}
+
+/*//HW
+Node* findElement(Node* head, int elementToSearch){
+    // return the node
+    ;
+}*/
+
+Node* midNode(Node* head){
+    Node* slow = head;
+    Node* fast = head;
+
+    while(fast && fast->next && fast->next->next){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+
+int lengthLL(Node* head){
+    int cnt = 0;
+    Node* cur = head;
+    while(cur){
+        ++cnt;
+        cur = cur->next;
+    }
+    return cnt;
+}
+
+// HW
+Node* fifthFromLast(Node* head){
+
+}
+
+Node* mergeSortedLL(Node* a, Node* b){
+    if (a == NULL) return b;
+    if (b == NULL) return a;
+
+    if (a->data < b->data){
+        a->next = mergeSortedLL(a->next, b);
+        return a;
+    }
+
+    b->next = mergeSortedLL(a, b->next);
+    return b;
+
+}
 
 int main() {
 
-    Node * ll = createLL();
-    display(ll);
+    // Node * ll = createLL();
+    // display(ll);
 
     // int x; cin >> x;
     // int pos; cin >> pos;
     // Node * updateLL = insertAtPos(ll, x, pos);  // insert after pos
     // display(updateLL);
 
-    int pos; cin >> pos;
-    Node* updateLL = deleteNode(ll, pos);
-    display(updateLL);
+    // int pos; cin >> pos;
+    // Node* updateLL = deleteNode(ll, pos);
+    // display(updateLL);
+
+    // int len = lengthLL(ll);
+    // cout << len;
+
+    // int x; cin >> x;
+    // int pos = findElement(ll, x);
+    // cout << pos << endl;
+
+    // Node* mid = midNode(ll);
+    // cout << mid << " " << endl;
+    // if (mid) cout << mid->data << endl;
+
+    Node* a = createLL();
+    Node* b = createLL();
+    Node* ans = mergeSortedLL(a, b);
+    display(ans);
 
 
 

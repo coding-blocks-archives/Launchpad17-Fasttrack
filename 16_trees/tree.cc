@@ -1,10 +1,8 @@
-
 // deepak@codingblocks.com
 #include <iostream>
 #include "tree_node.h"
 #include <queue>
 using namespace std;
-
 
 TreeNode* createTree() {
 // Takes input and converts it in a tree
@@ -32,7 +30,6 @@ void printTree(TreeNode* root) {
     cout << root->data << " ";  // My hat currently at root
     printTree(root->left);  // the left SUBTREE
     printTree(root->right); // the right SUBTREE
-
 }
 
 TreeNode* levelOrderInput() {
@@ -93,10 +90,88 @@ void printLevelOrder(TreeNode* root) {
     }
 }
 
+int height(TreeNode* root){
+    if (root == NULL) return 0;
+
+    int leftHt = height(root->left);
+    int rightHt = height(root->right);
+    int curHt = max(leftHt, rightHt) + 1;
+    return curHt;
+}
+
+TreeNode* findNode(TreeNode* root, int x){
+    if (root == NULL){
+        return NULL;
+    }
+
+    if (x == root->data) return root;
+
+    TreeNode* leftAns = findNode(root->left, x);
+    if (leftAns != NULL) return leftAns;
+
+    return findNode(root->right, x);
+}
+
+TreeNode* largestNode(TreeNode* root){
+    if (root == NULL){
+        return NULL;
+    }
+
+    TreeNode* ans = root;
+    TreeNode* leftMax = largestNode(root->left);
+    TreeNode* rightMax = largestNode(root->right);
+
+    if (leftMax && leftMax->data > ans->data){
+        ans = leftMax;
+    }
+
+    if (rightMax && rightMax->data > ans->data){
+        ans = rightMax;
+    }
+
+    return ans;
+}
+
+void printNode(TreeNode* x){
+    cout << x << " ";
+    if (x) cout << x->data;
+    cout << endl;
+}
+
+void printAtK(TreeNode* root, int k){
+    if (!root) return; // if not root -- if root does not exists
+
+    if (k == 1) {
+        cout << root->data << " ";
+        return;
+    }
+
+    printAtK(root->left, k -1);
+    printAtK(root->right, k -1);
+
+}
+
 int main() {
-//     TreeNode* root = createTree();
-//     printTree(root);
+    // TreeNode* root = createTree();
+    // printTree(root);
 
     TreeNode* root = levelOrderInput();
-    printLevelOrder(root);
+    // printLevelOrder(root);
+
+    // int ht = height(root);
+    // cout << ht;
+
+    // int x;
+    // cin >> x;
+    // TreeNode* ans = findNode(root, x);
+    // cout << ans << " ";
+    // if (ans) ans->data;
+
+    // TreeNode* ans = largestNode(root);
+    // printNode(ans);
+
+    int k;
+    cin >> k;
+    printAtK(root, k);
+
 }

@@ -56,7 +56,7 @@ void Vector::resize(int newSize) {
         tmp[i] = container[i];
     }
 
-    delete container;
+    delete [] container;
     container = tmp;
     capacity = newSize;
 }

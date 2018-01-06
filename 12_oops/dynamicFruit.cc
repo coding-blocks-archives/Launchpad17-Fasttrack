@@ -51,7 +51,6 @@ void Foo(){
     cout << "happy new Year\n";
     // mango.cleanUp();
 }
-
 int main(){
     // Fruit mango("yellow", "India");
     // Fruit mango2(mango);

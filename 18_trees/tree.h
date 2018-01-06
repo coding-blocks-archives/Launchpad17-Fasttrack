@@ -77,3 +77,35 @@ void printLevelOrder(TreeNode* root) {
     }
 }
 #endif
+
+#ifndef BST_H_
+#define BST_H_
+TreeNode* insertInBST(TreeNode* root, int x){
+    if (root == NULL){
+        TreeNode* tmp = new TreeNode(x);
+        return tmp;
+    }
+
+    if (x < root->data){
+        root->left = insertInBST(root->left , x);
+        return root;
+    } else{
+        root->right = insertInBST(root->right, x);
+        return root;
+    }
+}
+
+TreeNode* createBST(){
+    TreeNode* root = NULL;
+    int x;
+    cin >> x;
+
+    while(true){
+        if (x == -1) break;
+        root = insertInBST(root, x);
+        cin >> x;
+    }
+    return root;
+}
+
+#endif

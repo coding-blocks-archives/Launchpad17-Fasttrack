@@ -57,8 +57,6 @@ bool isBST(TreeNode* root, int minVal, int maxVal) {
            );
 }
 
-void deleteFromBST() {}
-
 pair<TreeNode*, TreeNode*> convertIntoLL(TreeNode* root) {
 
     if (root == NULL) {
@@ -80,20 +78,79 @@ pair<TreeNode*, TreeNode*> convertIntoLL(TreeNode* root) {
         root->left = NULL;
     }
 
-    if (rightAns.first){
+    if (rightAns.first) {
         root->right = rightAns.first;
-        ans.second = rightAns.second;   //ans.tail = right.tail 
+        ans.second = rightAns.second;   //ans.tail = right.tail
         rightAns.first->left = root;
-    } else{
-        ans.second = root;  
+    } else {
+        ans.second = root;
         root->right = NULL; // redundant
     }
     return ans;
 }
 
-void printList(TreeNode* head){
+TreeNode* successor(TreeNode* root) {
+    if (root == NULL) return NULL;
+
+    TreeNode* parent = root;
+    TreeNode* cur = root->right;
+
+    while (cur && cur->left) {
+        parent = cur;
+        cur = cur->left;
+    }
+
+    if (cur) parent->left = cur->right;
+    return cur;
+}
+
+TreeNode* deleteFromBST(TreeNode* root, int x) {
+    if (root == NULL) {
+        return NULL;
+    }
+
+    if (root->data == x) {
+        // if root is a leaf
+        if (!root->left && !root->right) {
+            delete root;
+            return NULL;
+        }
+
+        // if root has one child
+        if (!root->left) {
+            TreeNode* tmp = root->right;
+            delete root;
+            return tmp;
+        }
+
+        if (!root->right) {
+            TreeNode* tmp = root->left;
+            delete root;
+            return tmp;
+        }
+
+        // if root has 2 children
+        TreeNode* inOrderSuccessor = successor(root);
+
+        inOrderSuccessor->left = root->left;
+        inOrderSuccessor->right = root->right;
+
+        delete root;
+        return inOrderSuccessor;
+    }
+
+    if (root->data > x) {
+        root->left = deleteFromBST(root->left, x);
+        return root;
+    } else {
+        root->right = deleteFromBST(root->right, x);
+        return root;
+    }
+}
+
+void printList(TreeNode* head) {
     TreeNode* cur = head;
-    while(cur){
+    while (cur) {
         if (cur->left) cout << "(" << cur->left->data << ")";
         cout << cur->data;
         if (cur->right) cout << "(" << cur->right->data << ")";
@@ -101,6 +158,37 @@ void printList(TreeNode* head){
         cur = cur->right;
     }
 }
+
+int bestSumExcludingChildren(TreeNode* root, bool isIncluded) {
+    if (root == NULL) {
+        return 0;
+    }
+
+    int ans[5] = {};
+
+    // root exc, left inc
+    if (!isIncluded) {
+        int leftAns1 = bestSumExcludingChildren(root->left, true);
+        int rightAns1 = bestSumExcludingChildren(root->right, true);
+        int ans[0] = max(leftAns1, 0) + max(rightAns1, 0);
+
+
+        // root exc, left exc
+        int leftAns2 = bestSumExcludingChildren(root->left, false);
+        int rightAns2 = bestSumExcludingChildren(root->right, false);
+        int ans[1] = max(leftAns, 0) + max(rightAns, 0);
+
+        int ans[2] = max(leftAns1, 0) + max(rightAns2, 0);
+        int ans[3] = max(rightAns1, 0) + max(leftAns1, 0);
+    }
+    
+    // root inc
+    int ans[4] = max(leftAns2, 0) + max(rightAns2, 0) + max(root->data, 0);
+
+    int* ansFinal = max_element(ans, ans + 4);
+    return *ansFinal;
+}
+
 
 
 //=============================================
@@ -117,9 +205,17 @@ int main() {
     // bool ans = isBST(root, -inf, inf);
     // cout << ans;
 
-    TreeNode* root = createBST();
-    pair<TreeNode*, TreeNode*> ans = convertIntoLL(root);
-    printList(ans.first);
+    // TreeNode* root = createBST();
+    // pair<TreeNode*, TreeNode*> ans = convertIntoLL(root);
+    // printList(ans.first);
+
+    // TreeNode* root = createBST();
+    // int x; cin >> x;
+    // root = deleteFromBST(root, x);
+    // printLevelOrder(root);
+
+    int ans = bestSumExcludingChildren(root);
+
 
 }
 

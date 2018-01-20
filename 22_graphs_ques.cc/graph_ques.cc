@@ -145,6 +145,32 @@ public:
             cout << endl;
         }
     }
+
+    int shortestDistance(int src, int dest){
+        const int inf = 1e6;
+        vector<int> dist(nVertices, inf);
+        vector<bool> visited(nVertices, false);
+        queue<int> q;
+        q.push(src);
+        dist[src] = 0;
+        visited[src] = true;
+
+        while(!q.empty()){
+            int cur = q.front();
+            q.pop();
+
+            // set the distances of univisted ngbr
+            for(int i = 0; i < v[cur].size(); ++i){
+                int ngbr = v[cur][i];
+                if (!visited[ngbr]){
+                    visited[ngbr] = true;
+                    dist[ngbr] = min(1 + dist[cur], dist[ngbr]);
+                    q.push(ngbr);
+                }
+            }
+        }
+        return dist[dest];
+    }
 };
 
 
@@ -194,9 +220,10 @@ int main() {
     for(int i = 0; i < DIM; ++i){
         // no moves if snake or ladder
         if (snakeLadder[i] != 0){
-            g.addEdge(i, snakeLadder[i]);
+            g.addEdge(i, snakeLadder[i], false);
             continue;
         }  
+        // check moves
         for(int dice = 1; dice <= 6; ++dice){
             int dest = i + dice;
             if (i >= 36 or dest >= 36) continue;
@@ -208,5 +235,6 @@ int main() {
             g.addEdge(i, dest, false);
         }
     }
-    g.printGraph();
+    // g.printGraph();
+    cout << g.shortestDistance(0, 35);
 }
